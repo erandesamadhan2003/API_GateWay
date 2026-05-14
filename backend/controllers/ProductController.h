@@ -1,15 +1,21 @@
 #pragma once
+#include <drogon/HttpController.h>
 
-#include <drogon/HttpSimpleController.h>
+class ProductController : public drogon::HttpController<ProductController> {
+public:
+    METHOD_LIST_BEGIN
 
-using namespace drogon;
+    ADD_METHOD_TO(ProductController::getProducts, "/api/products", drogon::Get);
+    ADD_METHOD_TO(ProductController::getProductById, "/api/products/{1}", drogon::Get);
+    ADD_METHOD_TO(ProductController::createProduct, "/api/products", drogon::Post);
+    ADD_METHOD_TO(ProductController::updateProduct, "/api/products/{1}", drogon::Put);
+    ADD_METHOD_TO(ProductController::deleteProduct, "/api/products/{1}", drogon::Delete);
 
-class ProductController : public drogon::HttpSimpleController<ProductController>
-{
-  public:
-    void asyncHandleHttpRequest(const HttpRequestPtr& req, std::function<void (const HttpResponsePtr &)> &&callback) override;
-    PATH_LIST_BEGIN
-    // list path definitions here;
-    // PATH_ADD("/path", "filter1", "filter2", HttpMethod1, HttpMethod2...);
-    PATH_LIST_END
+    METHOD_LIST_END
+
+    void getProducts(const drogon::HttpRequestPtr& req, std::function<void (const drogon::HttpResponsePtr &)> &&callback);
+    void getProductById(const drogon::HttpRequestPtr& req, std::function<void (const drogon::HttpResponsePtr &)> &&callback, int productId);
+    void createProduct(const drogon::HttpRequestPtr& req, std::function<void (const drogon::HttpResponsePtr &)> &&callback);
+    void updateProduct(const drogon::HttpRequestPtr& req, std::function<void (const drogon::HttpResponsePtr &)> &&callback, int productId);
+    void deleteProduct(const drogon::HttpRequestPtr& req, std::function<void (const drogon::HttpResponsePtr &)> &&callback, int productId);
 };

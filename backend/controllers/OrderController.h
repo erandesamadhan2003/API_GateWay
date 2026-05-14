@@ -1,15 +1,16 @@
 #pragma once
 
-#include <drogon/HttpSimpleController.h>
+#include <drogon/HttpController.h>
 
 using namespace drogon;
 
-class OrderController : public drogon::HttpSimpleController<OrderController>
-{
-  public:
-    void asyncHandleHttpRequest(const HttpRequestPtr& req, std::function<void (const HttpResponsePtr &)> &&callback) override;
-    PATH_LIST_BEGIN
-    // list path definitions here;
-    // PATH_ADD("/path", "filter1", "filter2", HttpMethod1, HttpMethod2...);
-    PATH_LIST_END
+class OrderContoller : public drogon::HttpController<OrderContoller> {
+public:
+    METHOD_LIST_BEGIN
+    ADD_METHOD_TO(OrderContoller::getOrders, "/api/orders", drogon::Get);
+    ADD_METHOD_TO(OrderContoller::createOrder, "/api/orders", drogon::Post);
+    METHOD_LIST_END
+
+    void getOrders(const drogon::HttpRequestPtr &req, std::function<void(const drogon::HttpResponsePtr &)> &&callback);
+    void createOrder(const drogon::HttpRequestPtr &req, std::function<void(const drogon::HttpResponsePtr &)> &&callback);
 };
