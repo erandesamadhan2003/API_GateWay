@@ -1,8 +1,22 @@
 #include <drogon/drogon.h>
 #include <iostream>
 
-int main()
-{
+int main() {
+    std::cout << "Running Migrations...\n";
+
+    int chmodResult = system("chmod +x ../scripts/migrate.sh");
+    if (chmodResult != 0) {
+        std::cerr << "Failed to set execute permission for migration script. Exit code: " << chmodResult << std::endl;
+        return 1;
+    }
+
+    int migrationResult = system("bash ../scripts/migrate.sh");
+    if (migrationResult != 0) {
+        std::cerr << "Migration failed with exit code: " << migrationResult << std::endl;
+        return 1;
+    }
+    std::cout << "Migrations completed successfully.\n";
+
     drogon::app().loadConfigFile("../config.yaml");
 
     drogon::app().addListener("0.0.0.0", 3000);
@@ -20,5 +34,6 @@ int main()
     std::cout << "Starting server on port 3000...\n";
     drogon::app().run();
 
+    std::cout << "Server stopped.\n";
     return 0;
 }
