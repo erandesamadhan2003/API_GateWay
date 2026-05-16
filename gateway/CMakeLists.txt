@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.5)
-project(backend CXX)
+project(gateway CXX)
 
 include(CheckIncludeFileCXX)
 

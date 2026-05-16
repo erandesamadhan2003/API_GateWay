@@ -17,7 +17,7 @@ int main() {
     }
     std::cout << "Migrations completed successfully.\n";
 
-    drogon::app().loadConfigFile("../config.yaml");
+    drogon::app().loadConfigFile("../config/gateway.yaml");
 
     drogon::app().addListener("0.0.0.0", 3000);
 
